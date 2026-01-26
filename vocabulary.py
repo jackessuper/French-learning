@@ -335,9 +335,9 @@ COLOURS_VOCABULARY = [
     # PRIORITY 3 - Common (More shades & phrases)
     # =========================================================================
     {"category": "colours", "priority": 3, "topic": "shades", "french": "Bleu clair", "english": "Light blue", "pronunciation": "bluh KLEHR", "image": "\U0001FA75"},
-    {"category": "colours", "priority": 3, "topic": "shades", "french": "Bleu foncé", "english": "Dark blue", "pronunciation": "bluh fohn-SAY", "image": "\U0001F535"},
-    {"category": "colours", "priority": 3, "topic": "shades", "french": "Vert clair", "english": "Light green", "pronunciation": "vehr KLEHR", "image": "\U0001F7E2"},
-    {"category": "colours", "priority": 3, "topic": "shades", "french": "Vert foncé", "english": "Dark green", "pronunciation": "vehr fohn-SAY", "image": "\U0001F7E2"},
+    {"category": "colours", "priority": 3, "topic": "shades", "french": "Bleu foncé", "english": "Dark blue", "pronunciation": "bluh fohn-SAY", "image": "\U0001F4D8"},  # 📘 Blue book
+    {"category": "colours", "priority": 3, "topic": "shades", "french": "Vert clair", "english": "Light green", "pronunciation": "vehr KLEHR", "image": "\U0001F33F"},  # 🌿 Herb
+    {"category": "colours", "priority": 3, "topic": "shades", "french": "Vert foncé", "english": "Dark green", "pronunciation": "vehr fohn-SAY", "image": "\U0001F332"},  # 🌲 Evergreen
     {"category": "colours", "priority": 3, "topic": "extra", "french": "Or", "english": "Gold", "pronunciation": "OHR", "image": "\U0001F7E1"},
     {"category": "colours", "priority": 3, "topic": "extra", "french": "Argent", "english": "Silver", "pronunciation": "ahr-ZHAHN", "image": "\u26AA"},
     {"category": "colours", "priority": 3, "topic": "phrases", "french": "C'est rouge", "english": "It's red", "pronunciation": "seh ROOZH"},
@@ -563,8 +563,26 @@ SENTENCE_FRAMES_VOCABULARY = [
 ]
 
 
+# =============================================================================
+# PODCAST VOCABULARY (Coffee Break French)
+# =============================================================================
+
+PODCAST_VOCABULARY = [
+    {"category": "podcast", "priority": 1, "topic": "coffee_break_ep1", "french": "Oui", "english": "Yes", "pronunciation": "wee"},
+    {"category": "podcast", "priority": 1, "topic": "coffee_break_ep1", "french": "Non", "english": "No", "pronunciation": "nohn"},
+    {"category": "podcast", "priority": 1, "topic": "coffee_break_ep1", "french": "S'il vous plaît", "english": "Please (formal)", "pronunciation": "seel voo PLEH"},
+    {"category": "podcast", "priority": 1, "topic": "coffee_break_ep1", "french": "Très bien", "english": "Very well / Very good", "pronunciation": "treh BYEHN"},
+    {"category": "podcast", "priority": 1, "topic": "coffee_break_ep1", "french": "Merci", "english": "Thank you", "pronunciation": "mehr-SEE"},
+    {"category": "podcast", "priority": 1, "topic": "coffee_break_ep1", "french": "Et toi?", "english": "And you? (informal)", "pronunciation": "ay TWAH"},
+    {"category": "podcast", "priority": 1, "topic": "coffee_break_ep1", "french": "Ça ne va pas", "english": "I'm not well", "pronunciation": "sah nuh vah PAH"},
+    {"category": "podcast", "priority": 1, "topic": "coffee_break_ep1", "french": "Excellent", "english": "Excellent", "pronunciation": "ehk-seh-LAHN"},
+    {"category": "podcast", "priority": 1, "topic": "coffee_break_ep1", "french": "Je suis fatigué", "english": "I am tired", "pronunciation": "zhuh swee fah-tee-GAY"},
+    {"category": "podcast", "priority": 1, "topic": "coffee_break_ep1", "french": "Je suis en forme", "english": "I am fit / in good shape", "pronunciation": "zhuh swee ahn FOHRM"},
+]
+
+
 # Combine all vocabulary
-DEFAULT_VOCABULARY = GENERAL_VOCABULARY + ANIMALS_VOCABULARY + COLOURS_VOCABULARY + BODY_PARTS_VOCABULARY + FOOD_VOCABULARY + SENTENCE_FRAMES_VOCABULARY
+DEFAULT_VOCABULARY = GENERAL_VOCABULARY + ANIMALS_VOCABULARY + COLOURS_VOCABULARY + BODY_PARTS_VOCABULARY + FOOD_VOCABULARY + SENTENCE_FRAMES_VOCABULARY + PODCAST_VOCABULARY
 
 
 # =============================================================================

@@ -306,15 +306,41 @@
 }
 
 @media (max-width: 480px) {
-    .rating-buttons {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
     .flashcard {
-        height: 280px;
+        height: 220px;
     }
 
     .flashcard-front, .flashcard-back {
-        padding: 1.5rem;
+        padding: 1rem;
+    }
+
+    .french-word {
+        font-size: 1.5rem;
+    }
+
+    .rating-area {
+        padding: 1rem;
+    }
+
+    .rating-prompt {
+        margin-bottom: 0.75rem;
+        font-size: 1rem;
+    }
+
+    .rating-buttons {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.375rem;
+    }
+
+    .rating-btn {
+        padding: 0.5rem 0.25rem;
+    }
+
+    .rating-emoji {
+        font-size: 1.5rem;
+    }
+
+    .rating-text {
+        font-size: 0.625rem;
     }
 }

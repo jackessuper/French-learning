@@ -34,6 +34,7 @@ CATEGORY_INFO = {
     'body': {'name': 'Body Parts', 'emoji': '🧑'},
     'food_kids': {'name': 'Food', 'emoji': '🍎'},
     'sentence_frames': {'name': 'Sentence Frames', 'emoji': '💬'},
+    'podcast': {'name': 'Coffee Break French', 'emoji': '☕'},
 }
 
 
