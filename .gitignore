@@ -1,5 +1,9 @@
 # Database
 *.db
+backups/
+
+# Local scripts
+backup_db.py
 
 # Python
 __pycache__/
