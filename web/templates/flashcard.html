@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Flashcards: {{ category_name }} - French Learning{% endblock %}
+
+{% block content %}
+<div class="flashcard-container">
+    <div class="flashcard-header">
+        <div class="header-left">
+            <a href="{{ url_for('user_dashboard', name=user.name) }}" class="back-link">← Back</a>
+        </div>
+        <div class="header-center">
+            <span class="category-label">{{ category_emoji }} {{ category_name }}</span>
+        </div>
+        <div class="header-right">
+            <span class="progress-indicator">
+                <span id="current-index">1</span> / <span id="total-cards">{{ total_due }}</span>
+            </span>
+        </div>
+    </div>
+
+    {% if cards %}
+    <div class="flashcard-area">
+        <div class="flashcard" id="flashcard" onclick="flipCard()">
+            <div class="flashcard-inner" id="flashcard-inner">
+                <div class="flashcard-front">
+                    <div class="card-content">
+                        <div class="french-word" id="french-word"></div>
+                        <div class="pronunciation" id="pronunciation"></div>
+                    </div>
+                    <div class="flip-hint">Click to reveal</div>
+                </div>
+                <div class="flashcard-back">
+                    <div class="card-content">
+                        <div class="french-word" id="french-word-back"></div>
+                        <div class="pronunciation" id="pronunciation-back"></div>
+                        <div class="divider"></div>
+                        <div class="english-word" id="english-word"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="rating-area" id="rating-area" style="display: none;">
+        <p class="rating-prompt">How well did you know this?</p>
+        <div class="rating-buttons">
+            <button class="rating-btn rating-0" onclick="submitRating(0)" title="Complete blackout">
+                <span class="rating-emoji">😵</span>
+                <span class="rating-text">Forgot</span>
+            </button>
+            <button class="rating-btn rating-1" onclick="submitRating(1)" title="Wrong, but remembered seeing answer">
+                <span class="rating-emoji">😟</span>
+                <span class="rating-text">Hard</span>
+            </button>
+            <button class="rating-btn rating-2" onclick="submitRating(2)" title="Wrong, but seemed easy">
+                <span class="rating-emoji">😐</span>
+                <span class="rating-text">Wrong</span>
+            </button>
+            <button class="rating-btn rating-3" onclick="submitRating(3)" title="Correct with difficulty">
+                <span class="rating-emoji">🤔</span>
+                <span class="rating-text">Hard</span>
+            </button>
+            <button class="rating-btn rating-4" onclick="submitRating(4)" title="Correct with hesitation">
+                <span class="rating-emoji">😊</span>
+                <span class="rating-text">Good</span>
+            </button>
+            <button class="rating-btn rating-5" onclick="submitRating(5)" title="Perfect, instant recall">
+                <span class="rating-emoji">🌟</span>
+                <span class="rating-text">Easy!</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="session-complete" id="session-complete" style="display: none;">
+        <div class="complete-content">
+            <span class="complete-emoji">🎉</span>
+            <h2>Session Complete!</h2>
+            <p>You've reviewed all due cards in this category.</p>
+            <div class="complete-stats">
+                <div class="complete-stat">
+                    <span class="stat-value" id="reviewed-count">0</span>
+                    <span class="stat-label">Cards Reviewed</span>
+                </div>
+            </div>
+            <div class="complete-actions">
+                <a href="{{ url_for('user_dashboard', name=user.name) }}" class="btn btn-primary">Back to Dashboard</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="flashcard-footer">
+        <button class="btn btn-outline" onclick="exitSession()">Done for now</button>
+    </div>
+
+    {% else %}
+    <div class="no-cards">
+        <span class="no-cards-emoji">✅</span>
+        <h2>All caught up!</h2>
+        <p>No cards due for review in this category.</p>
+        <a href="{{ url_for('user_dashboard', name=user.name) }}" class="btn btn-primary">Back to Dashboard</a>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    const cards = {{ cards | tojson }};
+    const userName = "{{ user.name }}";
+    const reviewUrl = "{{ url_for('submit_review', name=user.name) }}";
+    const dashboardUrl = "{{ url_for('user_dashboard', name=user.name) }}";
+</script>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/flashcard.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome - French Learning{% endblock %}
+
+{% block content %}
+<div class="home-container">
+    <div class="welcome-header">
+        <h1>Bienvenue!</h1>
+        <p class="subtitle">Select your profile to start learning French</p>
+    </div>
+
+    <div class="user-grid">
+        {% for user in users %}
+        <a href="{{ url_for('user_dashboard', name=user.name) }}"
+           class="user-card {% if user.name == 'Family' %}user-card-family{% endif %}"
+           {% if user.name == 'Family' %}onclick="triggerUnicorn()"{% endif %}>
+            <div class="user-avatar">
+                {% if user.name == 'Family' %}
+                <span class="avatar-emoji">🦄</span>
+                {% elif user.name == 'Jack' %}
+                <span class="avatar-emoji">👦</span>
+                {% elif user.name == 'Nicola' %}
+                <span class="avatar-emoji">👩</span>
+                {% else %}
+                <span class="avatar-emoji">👤</span>
+                {% endif %}
+            </div>
+            <div class="user-info">
+                <h2 class="user-name">{{ user.name }}</h2>
+                <div class="user-stats">
+                    <div class="stat">
+                        <span class="stat-value">{{ user.cards_learned }}</span>
+                        <span class="stat-label">Cards Learned</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value">{{ user.current_streak }}</span>
+                        <span class="stat-label">Day Streak</span>
+                    </div>
+                </div>
+                {% if user.cards_due > 0 %}
+                <div class="due-badge">{{ user.cards_due }} cards due</div>
+                {% endif %}
+            </div>
+            {% if user.name == 'Family' %}
+            <div class="family-decoration">
+                <span class="sparkle">✨</span>
+                <span class="rainbow">🌈</span>
+            </div>
+            {% endif %}
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Trigger unicorn when Family user is clicked
+document.querySelectorAll('.user-card-family').forEach(card => {
+    card.addEventListener('click', function(e) {
+        triggerUnicorn();
+    });
+});
+</script>
+{% endblock %}

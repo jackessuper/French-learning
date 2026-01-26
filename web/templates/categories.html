@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}{{ user.name }}'s Dashboard - French Learning{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <h1>Hello, {{ user.name }}! 👋</h1>
+        <div class="quick-stats">
+            <div class="quick-stat">
+                <span class="quick-stat-value">{{ stats.cards_learned }}</span>
+                <span class="quick-stat-label">Learned</span>
+            </div>
+            <div class="quick-stat">
+                <span class="quick-stat-value">{{ stats.cards_due }}</span>
+                <span class="quick-stat-label">Due Today</span>
+            </div>
+            <div class="quick-stat">
+                <span class="quick-stat-value">{{ stats.reviews_today }}</span>
+                <span class="quick-stat-label">Reviews Today</span>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="section-title">Categories</h2>
+
+    <div class="category-grid">
+        {% for cat in categories %}
+        <div class="category-card">
+            <div class="category-header">
+                <span class="category-emoji">{{ cat.emoji }}</span>
+                <h3 class="category-name">{{ cat.name }}</h3>
+                <span class="category-count">{{ cat.count }} cards</span>
+            </div>
+
+            <div class="tier-progress">
+                {% for tier in cat.tiers %}
+                <div class="tier {% if tier.unlocked %}tier-unlocked{% else %}tier-locked{% endif %}">
+                    <div class="tier-header">
+                        <span class="tier-label">P{{ tier.priority }}</span>
+                        {% if not tier.unlocked %}
+                        <span class="tier-lock">🔒</span>
+                        {% endif %}
+                    </div>
+                    <div class="tier-bar">
+                        <div class="tier-fill" style="width: {{ tier.review_rate }}%"></div>
+                    </div>
+                    <span class="tier-stats">{{ tier.reviewed }}/{{ tier.total }}</span>
+                </div>
+                {% endfor %}
+            </div>
+
+            {% if cat.due_count > 0 %}
+            <div class="category-due-badge">{{ cat.due_count }} due</div>
+            {% endif %}
+
+            <div class="category-actions">
+                <a href="{{ url_for('flashcard_mode', name=user.name, cat=cat.category) }}"
+                   class="btn btn-primary">
+                    📚 Flashcards
+                </a>
+                {% if cat.is_quiz %}
+                <a href="{{ url_for('quiz_mode', name=user.name, cat=cat.category) }}"
+                   class="btn btn-secondary">
+                    🎯 Picture Quiz
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

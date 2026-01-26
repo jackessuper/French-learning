@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}{{ user.name }}'s Progress - French Learning{% endblock %}
+
+{% block content %}
+<div class="progress-container">
+    <div class="progress-header">
+        <h1>{{ user.name }}'s Progress</h1>
+    </div>
+
+    <div class="stats-overview">
+        <div class="stat-card">
+            <span class="stat-emoji">📚</span>
+            <div class="stat-info">
+                <span class="stat-value">{{ summary.cards.cards_learned }}</span>
+                <span class="stat-label">Cards Learned</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-emoji">🔥</span>
+            <div class="stat-info">
+                <span class="stat-value">{{ summary.streak.current_streak }}</span>
+                <span class="stat-label">Day Streak</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-emoji">🏆</span>
+            <div class="stat-info">
+                <span class="stat-value">{{ summary.streak.longest_streak }}</span>
+                <span class="stat-label">Best Streak</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-emoji">✅</span>
+            <div class="stat-info">
+                <span class="stat-value">{{ summary.success_rate }}%</span>
+                <span class="stat-label">Success Rate</span>
+            </div>
+        </div>
+    </div>
+
+    <section class="progress-section">
+        <h2>Topic Progress</h2>
+        <div class="topic-grid">
+            {% for topic, data in summary.topics.items() %}
+            <div class="topic-card">
+                <div class="topic-header">
+                    <span class="topic-name">{{ topic | title }}</span>
+                    <span class="topic-mastery">{{ data.mastery }}%</span>
+                </div>
+                <div class="topic-bar">
+                    <div class="topic-fill" style="width: {{ data.mastery }}%"></div>
+                </div>
+                <div class="topic-stats">
+                    <span>{{ data.learned }}/{{ data.total_cards }} learned</span>
+                    {% if data.due > 0 %}
+                    <span class="topic-due">{{ data.due }} due</span>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="progress-section">
+        <h2>Daily Reviews (Last 30 Days)</h2>
+        <div class="chart-container">
+            <div class="review-chart" id="review-chart">
+                {% for day in daily_reviews %}
+                <div class="chart-bar-container" title="{{ day.date }}: {{ day.reviews }} reviews">
+                    <div class="chart-bar" style="height: {{ [day.reviews * 5, 100] | min }}%"></div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="chart-labels">
+                <span>30 days ago</span>
+                <span>Today</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="cards-sections">
+        <section class="progress-section cards-section">
+            <h2>🎯 Cards to Practice</h2>
+            {% if difficult_cards %}
+            <div class="cards-list">
+                {% for card in difficult_cards %}
+                <div class="card-item card-difficult">
+                    <div class="card-french">{{ card.french }}</div>
+                    <div class="card-english">{{ card.english }}</div>
+                    <div class="card-ease">Ease: {{ card.ease_factor }}</div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="no-cards-message">No difficult cards yet. Keep practicing!</p>
+            {% endif %}
+        </section>
+
+        <section class="progress-section cards-section">
+            <h2>🌟 Mastered Cards</h2>
+            {% if mastered_cards %}
+            <div class="cards-list">
+                {% for card in mastered_cards %}
+                <div class="card-item card-mastered">
+                    <div class="card-french">{{ card.french }}</div>
+                    <div class="card-english">{{ card.english }}</div>
+                    <div class="card-interval">Next: {{ card.interval }} days</div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="no-cards-message">Keep studying to master cards!</p>
+            {% endif %}
+        </section>
+    </div>
+
+    <section class="progress-section">
+        <h2>Quality Distribution</h2>
+        <div class="quality-chart">
+            {% for q, count in summary.quality_distribution.items() %}
+            <div class="quality-bar-container">
+                <div class="quality-label">{{ q }}</div>
+                <div class="quality-bar-wrapper">
+                    <div class="quality-bar quality-{{ q }}"
+                         style="width: {{ (count / (summary.quality_distribution.values() | sum or 1) * 100) | round }}%">
+                    </div>
+                </div>
+                <div class="quality-count">{{ count }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}

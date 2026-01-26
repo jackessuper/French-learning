@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Quiz: {{ category_name }} - French Learning{% endblock %}
+
+{% block content %}
+<div class="quiz-container">
+    <div class="quiz-header">
+        <div class="header-left">
+            <a href="{{ url_for('user_dashboard', name=user.name) }}" class="back-link">← Back</a>
+        </div>
+        <div class="header-center">
+            <span class="category-label">{{ category_emoji }} {{ category_name }} Quiz</span>
+        </div>
+        <div class="header-right">
+            <div class="score-display">
+                <span class="score-correct" id="score-correct">0</span>
+                <span class="score-separator">/</span>
+                <span class="score-total" id="score-total">0</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="quiz-area" id="quiz-area">
+        <div class="question-display">
+            <div class="french-prompt">What is:</div>
+            <div class="french-word" id="quiz-french-word">Loading...</div>
+            <div class="pronunciation" id="quiz-pronunciation"></div>
+        </div>
+
+        <div class="options-grid" id="options-grid">
+            <button class="option-btn" data-index="0">
+                <span class="option-image"></span>
+            </button>
+            <button class="option-btn" data-index="1">
+                <span class="option-image"></span>
+            </button>
+            <button class="option-btn" data-index="2">
+                <span class="option-image"></span>
+            </button>
+            <button class="option-btn" data-index="3">
+                <span class="option-image"></span>
+            </button>
+        </div>
+
+        <div class="feedback-area" id="feedback-area" style="display: none;">
+            <div class="feedback-message" id="feedback-message"></div>
+            <div class="feedback-english" id="feedback-english"></div>
+            <button class="btn btn-primary btn-next" id="next-btn" onclick="loadNextQuestion()">
+                Next Question →
+            </button>
+        </div>
+    </div>
+
+    <div class="quiz-complete" id="quiz-complete" style="display: none;">
+        <div class="complete-content">
+            <span class="complete-emoji">🏆</span>
+            <h2>Quiz Complete!</h2>
+            <div class="final-score">
+                <span class="final-correct" id="final-correct">0</span>
+                <span class="final-separator">/</span>
+                <span class="final-total" id="final-total">0</span>
+            </div>
+            <p class="score-message" id="score-message"></p>
+            <div class="complete-actions">
+                <button class="btn btn-secondary" onclick="startNewQuiz()">Play Again</button>
+                <a href="{{ url_for('user_dashboard', name=user.name) }}" class="btn btn-primary">Back to Dashboard</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="quiz-footer">
+        <button class="btn btn-outline" onclick="endQuiz()">End Quiz</button>
+    </div>
+</div>
+
+<script>
+    const userName = "{{ user.name }}";
+    const category = "{{ category }}";
+    const isFamily = {{ 'true' if is_family else 'false' }};
+    const questionUrl = "{{ url_for('get_quiz', name=user.name, cat=category) }}";
+    const answerUrl = "{{ url_for('submit_quiz_answer', name=user.name) }}";
+</script>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/quiz.js') }}"></script>
+{% endblock %}
