@@ -4,9 +4,26 @@ let currentIndex = 0;
 let reviewedCount = 0;
 let isFlipped = false;
 
+// Shuffle array in place (Fisher-Yates)
+function shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
     if (cards && cards.length > 0) {
+        // Create reverse copies (English front, French back)
+        const reversed = cards.map(c => Object.assign({}, c, { reversed: true }));
+        cards.push(...reversed);
+
+        // Randomize order
+        shuffle(cards);
+
+        document.getElementById('total-cards').textContent = cards.length;
         showCard(0);
     }
 });
@@ -22,12 +39,22 @@ function showCard(index) {
     currentIndex = index;
     isFlipped = false;
 
-    // Update card content
-    document.getElementById('french-word').textContent = card.french;
-    document.getElementById('pronunciation').textContent = card.pronunciation || '';
-    document.getElementById('french-word-back').textContent = card.french;
-    document.getElementById('pronunciation-back').textContent = card.pronunciation || '';
-    document.getElementById('english-word').textContent = card.english;
+    // Update card content based on direction
+    if (card.reversed) {
+        // English on front, French (with pronunciation) on back
+        document.getElementById('french-word').textContent = card.english;
+        document.getElementById('pronunciation').textContent = '';
+        document.getElementById('french-word-back').textContent = card.french;
+        document.getElementById('pronunciation-back').textContent = card.pronunciation || '';
+        document.getElementById('english-word').textContent = card.english;
+    } else {
+        // Normal: French on front, English on back
+        document.getElementById('french-word').textContent = card.french;
+        document.getElementById('pronunciation').textContent = card.pronunciation || '';
+        document.getElementById('french-word-back').textContent = card.french;
+        document.getElementById('pronunciation-back').textContent = card.pronunciation || '';
+        document.getElementById('english-word').textContent = card.english;
+    }
 
     // Reset flip state
     document.getElementById('flashcard').classList.remove('flipped');
